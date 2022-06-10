@@ -1,0 +1,80 @@
+package pack;
+
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.Status;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.AfterMethod;
+
+public class TNG_001 extends BaseTest
+{
+	@BeforeMethod(groups = {"regression","sanity"})
+	
+	@Parameters("browser")
+	
+	  public void StartProcess(String bType) throws Exception
+	  {
+		
+		
+		System.out.println("Before method");
+		 init();
+		 
+		 test = rep.createTest("TNG_001");
+		 
+		 test.log(Status.INFO,"Init the properties files....");
+		
+		 
+		 launch(bType);
+		
+		test.log(Status.PASS, "Launching the Browser :-"+p.getProperty("chromebrowser"));
+		
+		
+		navigateUrl("amazonurl");
+		test.log(Status.FAIL," Navigated to Url : " + childProp.getProperty("amazonurl"));
+		
+		
+		
+		
+		
+		
+	  }
+	
+	@Test (groups = {"regression","sanity"})
+  public void amazon()
+  {
+		System.out.println("Amazon test method");
+
+		selectOption("amazondropdown_id","Books");
+		
+		test.log(Status.PASS, "Selected the option Books By using the locator :-"+ orProp.getProperty("amazondropdown_id"));
+		
+		typeText("amazontextbox_name","Harry potter");
+		test.log(Status.PASS,"Entered the text Harry Potter by using the locator :-"+orProp.getProperty("amazontextbox_name"));
+		
+		clickElement("amazonsearchbutton_xpath");
+		test.log(Status.PASS, "Clicked the element by using the locator :-"+orProp.getProperty("amazonsearchbutton_xpath"));
+		
+		
+		
+		
+		
+		
+  }
+  
+
+  @AfterMethod(groups = {"regression","sanity"})
+  public void endProcess()
+  {
+		System.out.println("after method");
+
+	  rep.flush();
+	  driver.quit();
+	  
+	  
+	  
+	  
+  }
+
+}
